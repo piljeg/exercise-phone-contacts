@@ -56,3 +56,5 @@ This part is not required, but it will give you imaginary bonus points.
 - Set up a basic CI/CD pipeline using GitLab CI/CD, GitHub Actions, or similar free service.
 - Use Docker
 - Send use estimate time before start and track your time and progress.
+
+Deployed web app is hosted on https://contacts-986c5.web.app
