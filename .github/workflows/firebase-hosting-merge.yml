@@ -1,20 +1,45 @@
-name: Deploy to Firebase Hosting on merge
-'on':
+name: Firebase CI
+
+on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  deploy:
+  build:
 
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js
       uses: actions/setup-node@v1
-    - name: Setup the code
-      run: npm install
-    - name: Deploy to Firebase
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+    - run: npm install -g yarn
+    - name: yarn install, build and test
+      run: |
+        yarn install
+        yarn build
+    - name: Archive Build
+      uses: actions/upload-artifact@v2
       with:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CONTACTS }}
+        name: build
+        path: build
+        
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Build
+        uses: actions/download-artifact@v2
+        with:
+          name: client/build
+          path: client/build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
