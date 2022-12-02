@@ -18,6 +18,7 @@ jobs:
     - run: npm install -g yarn
     - name: yarn install, build and test
       run: |
+        cd client
         yarn install
         yarn build
     - name: Archive Build
