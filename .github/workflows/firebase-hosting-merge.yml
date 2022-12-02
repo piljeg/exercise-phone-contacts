@@ -1,9 +1,8 @@
-name: Deploy to firebase
-
-on:
-  release:
-    types:
-      - published
+name: Deploy to Firebase Hosting on merge
+'on':
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
