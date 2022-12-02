@@ -20,6 +20,7 @@ jobs:
           CI: false
       - name: Archive Production Artifact
         uses: actions/upload-artifact@v2
+        working-directory: ./client
         with:
           name: build
           path: build
